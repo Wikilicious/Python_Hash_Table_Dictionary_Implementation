@@ -2,6 +2,7 @@ Python Hash Table Dictionary Implementation
 ===========================================
 
 A custom dictionary (key value pair) implementation in Python using hash tables.
+Uses a load factor threshold for dynamic rehashing.
 
 <hr>
 <b>Example Usage:</b><br>

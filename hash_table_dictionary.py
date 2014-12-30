@@ -36,10 +36,10 @@ class HashTableMap(object):
     def __check_load_factor(self):
         if self.auto_rehash:
             current_load = self.__list_size / float(self.__buckets)
-            if current_load > self.load_factor and self.__list_size > 1000:
+            if current_load > self.load_factor and self.__list_size > 100:
                 buckets = self.__list_size * 3 + 1
                 self.rehash(buckets)
-            elif current_load < self.load_factor / 7.0 and self.__list_size > 1000:
+            elif current_load < self.load_factor / 7.0 and self.__list_size > 100:
                 buckets = self.__list_size * 2 + 1
                 self.rehash(buckets)
 
