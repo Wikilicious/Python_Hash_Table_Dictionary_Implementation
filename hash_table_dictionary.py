@@ -4,40 +4,43 @@ import warnings
 
 
 class HashTableMap(object):
+    """A custom dictionary (key value pair) implementation using hash tables.
+    Constructor **kwargs:
+        'warnings' - Boolean, default: False, prints warnings
+        'auto_rehash' - Boolean, default: True, dynamically rehashes
+        'load_factor' - float, default: 0.66, threshold to rehash
+        'buckets' - int, default: 211, number of hash tables
+
+    Functions:
+        .size()
+        .rehash()
+        .get()
+        .add()
+        .insert()
+        .get_all()
+        .get_all_raw()
+        .delete()
+        .pop()
+        .get_num_buckets()
+    """
     def __init__(self, **kwargs):
         self.warnings = kwargs.pop('warnings', False)
         self.auto_rehash = kwargs.pop('auto_rehash', True)
-        self.load_factor = kwargs.pop('load_factor', 0.75)
+        self.load_factor = kwargs.pop('load_factor', 0.66)
         self.__list_size = 0
         self.__buckets = kwargs.pop('buckets', 211)
         self.__list = []
         for i in range(0, self.__buckets):
             self.__list.append([])
 
-    def __is_prime(self, num):
-        """Returns True if the number is prime else False."""
-        if num == 0 or num == 1:
-            return False
-        for x in xrange(2, num):
-            if num % x == 0:
-                return False
-        else:
-            return True
-
-    def __next_prime(self, start_point):
-        for i in xrange(start_point + 1, start_point + 1000):
-            if self.__is_prime(i):
-                return i
-        return start_point * 2 + 1
-
     def __check_load_factor(self):
         if self.auto_rehash:
             current_load = self.__list_size / float(self.__buckets)
-            if current_load > self.load_factor and self.__list_size > 100:
-                buckets = self.__next_prime(self.__list_size * 2)
+            if current_load > self.load_factor and self.__list_size > 1000:
+                buckets = self.__list_size * 3 + 1
                 self.rehash(buckets)
-            elif current_load < self.load_factor / 7.0 and self.__list_size > 100:
-                buckets = self.__next_prime(self.__list_size * 2)
+            elif current_load < self.load_factor / 7.0 and self.__list_size > 1000:
+                buckets = self.__list_size * 2 + 1
                 self.rehash(buckets)
 
     def __generate_new_list(self):
@@ -88,9 +91,17 @@ class HashTableMap(object):
         self.__list_size += 1
 
     def size(self):
+        """Get the size of the dictionary.
+
+        :returns: The size.
+        """
         return self.__list_size
 
     def rehash(self, buckets):
+        """Rehashes the table with a new size.
+
+        :param buckets: (int) Number to tables to hash to.
+        """
         if type(buckets) is not int:
             pass
         else:
@@ -105,6 +116,11 @@ class HashTableMap(object):
                     self.__add(key, value, hash_key)
 
     def get(self, key):
+        """Get the value of a key.
+
+        :param key: The key of the value to get.
+        :returns: The value.
+        """
         hash_key = self.__get_hash_key(key)
         if hash_key is None:
             return None
@@ -112,7 +128,11 @@ class HashTableMap(object):
             return self.__get(key, hash_key)
 
     def add(self, key, value):
-        """Add key-value pair and ignores operation if key already exists."""
+        """Add key-value pair and ignores operation if key already exists.
+
+        :param key: The key.
+        :param value: The data to store.
+        """
         hash_key = self.__get_hash_key(key)
         if hash_key is None:
             pass
@@ -123,7 +143,11 @@ class HashTableMap(object):
             warnings.warn('Key already exists. Operation ignored.')
 
     def insert(self, key, value):
-        """Inserts key-value pair and overrides value if key already exists."""
+        """Inserts key-value pair and overrides value if key already exists.
+
+        :param key: The key.
+        :param value: The data to store.
+        """
         hash_key = self.__get_hash_key(key)
         if hash_key is None:
             pass
@@ -138,12 +162,18 @@ class HashTableMap(object):
     def get_all(self):
         """Generator object. Get key value pairs. Warning: Don't use any methods that mutates the data e.g. delete()
         Use get_all_raw() to iterate and mutate the data.
+
+        :yields: Generator object.
         """
         for bucket_list in self.__list:
             for key_value in bucket_list:
                 yield key_value
 
     def get_all_raw(self):
+        """Get the full list of key value pairs.
+
+        :returns: The whole list of key value pairs.
+        """
         raw_list = []
         for bucket_list in self.__list:
             for key_value in bucket_list:
@@ -151,7 +181,10 @@ class HashTableMap(object):
         return raw_list
 
     def delete(self, key):
-        """Deletes a key value pair if it exists"""
+        """Deletes a key value pair if it exists
+
+        :param key: The key of the value to delete.
+        """
         hash_key = self.__get_hash_key(key)
         if hash_key is None:
             pass
@@ -165,7 +198,11 @@ class HashTableMap(object):
                 self.__list_size -= 1
 
     def pop(self, key):
-        """Returns the value of a key and deletes the key value pair."""
+        """Get the value of a key and delete the key value pair.
+
+        :param key: The key of the value to get and delete.
+        :returns: The value.
+        """
         hash_key = self.__get_hash_key(key)
         if hash_key is None:
             return None
@@ -180,42 +217,10 @@ class HashTableMap(object):
                 del self.__list[hash_key][index]
                 return value
 
-    def print_raw(self):
-        print self.__list
-
     def get_num_buckets(self):
+        """Get the number of hash tables.
+
+        :returns: The number of hash tables.
+        """
         return self.__buckets
 
-# import random, string
-# d = HashTableMap(warnings=True, buckets=997)
-# print d.get_num_buckets()
-# # d.add('2.0', 'number one')
-# # d.insert(2.0, 'q')
-# for i in range(0, 1000):
-#     k = ''.join(random.choice(string.ascii_letters) for i in range(4))
-#     v = random.randrange(0, 1000)
-#     d.insert(k, v)
-#
-#
-# print 'SIZE', d.size()
-# # print d.get('2.0')
-# # print d.get(2.0)
-# # d.rehash(3)
-# # print d.get('2.0')
-# # print d.get(2.0)
-# # print d.get_all()
-# i = 0
-# for k, v in d.get_all_raw():
-# #     # d.print_raw()
-#     d.delete(k)
-# #     print k, v
-#     i += 1
-# print i, 'k-v'
-# print 'SIZE', d.size()
-# # print d.print_raw()
-#
-# d.add(1, 2)
-# # print d.get(1)
-# # d.print_raw()
-# # print d.pop(2.01)
-# # d.print_raw()
