@@ -1,10 +1,11 @@
-Python_Hash_Table_Dictionary_Implementation
+Python Hash Table Dictionary Implementation
 ===========================================
 
 A custom dictionary (key value pair) implementation in Python using hash tables.
 
 <hr>
 <b>Example Usage:</b>
+'''
 import hash_table_dictionary
 
 
@@ -27,7 +28,7 @@ htd.add('Hello', 'World!')
 
 for k, v in htd.get_all():
     print k, v
-    
+'''
   <hr>
   <b>Constructor **kwargs:</b>
         'warnings' - Boolean, default: False, prints warnings
@@ -36,6 +37,7 @@ for k, v in htd.get_all():
         'buckets' - int, default: 211, number of hash tables
 
     <b>Functions:</b>
+        '''
         .size()
         .rehash()
         .get()
@@ -46,3 +48,4 @@ for k, v in htd.get_all():
         .delete()
         .pop()
         .get_num_buckets()
+        '''
