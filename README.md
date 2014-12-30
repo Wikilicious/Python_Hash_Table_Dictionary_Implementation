@@ -29,23 +29,23 @@ htd.add('Hello', 'World!')
 for k, v in htd.get_all():
     print k, v
 '''
-  <hr>
-  <b>Constructor **kwargs:</b>
-        'warnings' - Boolean, default: False, prints warnings
-        'auto_rehash' - Boolean, default: True, dynamically rehashes
-        'load_factor' - float, default: 0.66, threshold to rehash
-        'buckets' - int, default: 211, number of hash tables
+<hr>
+<b>Constructor **kwargs:</b><br>
+'warnings' - Boolean, default: False, prints warnings<br>
+'auto_rehash' - Boolean, default: True, dynamically rehashes<br>
+'load_factor' - float, default: 0.66, threshold to rehash<br>
+'buckets' - int, default: 211, number of hash tables<br>
 
-    <b>Functions:</b>
-        '''
-        .size()
-        .rehash()
-        .get()
-        .add()
-        .insert()
-        .get_all()
-        .get_all_raw()
-        .delete()
-        .pop()
-        .get_num_buckets()
-        '''
+<b>Functions:</b>
+'''
+.size()
+.rehash()
+.get()
+.add()
+.insert()
+.get_all()
+.get_all_raw()
+.delete()
+.pop()
+.get_num_buckets()
+'''
