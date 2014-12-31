@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'Thomaz Lago Santana'
 import warnings
+from copy import deepcopy
 
 
 class HashTableMap(object):
@@ -160,12 +161,12 @@ class HashTableMap(object):
                     b_list[1] = value
 
     def get_all(self):
-        """Generator object. Get key value pairs. Warning: Don't use any methods that mutates the data e.g. delete()
-        Use get_all_raw() to iterate and mutate the data.
+        """Generator object. Get key value pairs.
 
         :yields: Generator object.
         """
-        for bucket_list in self.__list:
+        list_copy = deepcopy(self.__list)
+        for bucket_list in list_copy:
             for key_value in bucket_list:
                 yield key_value
 

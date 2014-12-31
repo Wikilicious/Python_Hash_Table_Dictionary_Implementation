@@ -6,8 +6,8 @@ import string
 from bettertimeit import bettertimeit
 
 
-inserts = 100000
-lookups = 100000
+inserts = 10000
+lookups = 10000
 t0 = time.time()
 kv = []
 for i in xrange(0, inserts):
@@ -15,23 +15,22 @@ for i in xrange(0, inserts):
 # print kv
 
 
+#################################
 create_dt = time.time() - t0
 print 'create dt', create_dt
 
 t1 = time.time()
-def hasht():
-    d = ht.HashTableMap()
-    for item in kv:
-        d.insert(item, item)
-    for i in range(0, lookups):
-        a = d.get(kv[i])
+d = ht.HashTableMap()
+for item in kv:
+    d.insert(item, item)
+for i in range(0, lookups):
+    a = d.get(kv[i])
 
-# q = hasht()
-print 'bti', bettertimeit(hasht)
 ht_dt = time.time() - t1
-
+print 'ht size', d.size()
 print 'HT dt', ht_dt
 
+###############################
 t2 = time.time()
 dic = {}
 for item in kv:
@@ -43,10 +42,10 @@ for i in range(0, lookups):
 d_dt = time.time() - t2
 
 print 'Dic dt:', d_dt
-print ht_dt / d_dt, 'X faster'
+print 'Pythons dict is: %.1d X faster.' % (ht_dt / d_dt)
 
 
-# # list
+# # list very slow
 # t3 = time.time()
 # li = []
 # for it in kv:

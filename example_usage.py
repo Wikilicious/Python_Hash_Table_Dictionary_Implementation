@@ -1,6 +1,6 @@
 __author__ = 'Thomaz'
 import hash_table_dictionary
-
+import random, string
 
 htd = hash_table_dictionary.HashTableMap()
 
@@ -22,3 +22,13 @@ htd.add('Hello', 'World!')
 
 for k, v in htd.get_all():
     print k, v
+
+
+for i in xrange(0, 1000):
+    a = ''.join(random.choice(string.ascii_letters) for i in range(5))
+    htd.insert(a, a)
+
+print htd.size()
+for k, v in htd.get_all():
+    htd.delete(k)
+print htd.size()
